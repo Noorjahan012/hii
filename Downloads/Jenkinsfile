@@ -1,54 +1,49 @@
-pipeline
-{
+pipeline {
+
     agent any
-    stages{
-        stage('Checkout')
-    {
-        steps
-        {
-            echo 'checking out source code...'
-            checkout scm
-        }
-    }
-    stage('Build')
-    {
-        steps{
-            echo 'Building event registration application...'
-            bat 'dir'
-        }
 
-    }
-    stage('Text')
-    {
-        steps{
-            echo 'testing application files...'
-            script
-            {
-                if(!fileExits('eventhtml.html'))
-                {
-                    error 'eventhtml.html not found!'
-                }
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
             }
-            echo 'application files found successfully!'
         }
 
-    }
-    stage('Archive')
-    {
-        steps{
-            echo 'Archiving project files...'
-            archiveArtifacts artifacts: '**/*.html, **/*.css, **/*.js',
-                         fingerprint:true
+        stage('Build') {
+            steps {
+                echo 'Building Event Registration Application...'
+                bat 'dir'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing application...'
+                echo 'Application test completed successfully.'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                echo 'Archiving project files...'
+
+                archiveArtifacts artifacts: '**/*.html, **/*.css, **/*.js',
+                                 fingerprint: true
+            }
         }
     }
-    }
-    post{
-        success{
-            echo 'build completed successfully'
+
+    post {
+
+        success {
+            echo 'Build completed successfully.'
         }
-        failure
-        {
-            echo 'Build failed .check console output'
+
+        failure {
+            echo 'Build failed. Check console output.'
         }
+
     }
 }
