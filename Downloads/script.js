@@ -1,3 +1,4 @@
+// Event registration form email validation
 document.getElementById('regForm').addEvenListener('submit',function(e){
 e.preventDefault();
 var email=document.getElementById('email').value;
