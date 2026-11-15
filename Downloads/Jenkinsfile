@@ -1,0 +1,54 @@
+pipeline
+{
+    agent any
+    stages{
+        stage('Checkout')
+    {
+        steps
+        {
+            echo 'checking out source code...'
+            checkout scm
+        }
+    }
+    stage('Build')
+    {
+        steps{
+            echo 'Building event registration application...'
+            bat 'dir'
+        }
+
+    }
+    stage('Text')
+    {
+        steps{
+            echo 'testing application files...'
+            script
+            {
+                if(!fileExits('eventhtml.html'))
+                {
+                    error 'eventhtml.html not found!'
+                }
+            }
+            echo 'application files found successfully!'
+        }
+
+    }
+    stage('Archive')
+    {
+        steps{
+            echo 'Archiving project files...'
+            archiveArtifacts artifacts: '**/*.html, **/*.css, **/*.js',
+                         fingerprint:true
+        }
+    }
+    }
+    post{
+        success{
+            echo 'build completed successfully'
+        }
+        failure
+        {
+            echo 'Build failed .check console output'
+        }
+    }
+}
