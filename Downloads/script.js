@@ -6,7 +6,7 @@ var pattern=/^[^ ]+@[^ ]+\.[a-z]{2,}$/i;
 if(!pattern.test(email))
 {
 document.getElementById('msg').textContent=
-"enter a valid emai address';
+"enter valid email address"
 return;
 }
 document.getElementById('msg').textContent=
